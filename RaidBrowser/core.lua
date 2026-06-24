@@ -351,15 +351,21 @@ local raid_list = {
 	},
 
 	{
-		name = 'voa25',
-		instance_name = 'Vault of Archavon',
-		size = 25,
-		patterns = std.algorithm.copy_back(
-			create_pattern_from_template('voa', 25, 'simple'),
-			{
-				'voa' .. sep
-			})
-	},
+        name = 'voa25',
+        instance_name = 'Vault of Archavon',
+        size = 25,
+        patterns = std.algorithm.copy_back(
+            create_pattern_from_template('voa', 25, 'simple'),
+            {
+                -- Catch variations of voa18 spec/class runs before matching standard voa
+                'voa' .. csep .. '18',
+                'voa' .. csep .. '18' .. csep .. 'spec',
+                'voa' .. csep .. 'spec' .. csep .. '18',
+                'voa' .. csep .. 'spec' .. csep .. 'run',
+                -- Keep your baseline fallback pattern last
+                'voa' .. sep
+            })
+    },
 
 	{
 		name = 'ulduar10',

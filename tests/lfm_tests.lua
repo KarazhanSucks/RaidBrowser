@@ -1491,6 +1491,27 @@ local test_cases = {
 		roles = { 'healer', 'tank', 'dps' },
 		gs = '5.9',
 	},
+	{
+		message = 'LFM VOA18 spec run need enh sham',
+		should_fail = false,
+		raid = 'voa25',
+		roles = { 'dps' },
+		gs = ' ',
+	},
+	{
+		message = 'LFM VOA18 spec run need any shaman and dk',
+		should_fail = false,
+		raid = 'voa25',
+		roles = { 'dps', 'tank', 'healer' },
+		gs = ' ',
+	},
+	{
+		message = 'LFM VOA18 spec run need all',
+		should_fail = false,
+		raid = 'voa25',
+		roles = { 'dps', 'tank', 'healer' },
+		gs = ' ',
+	},
 }
 
 local function array_contains(t, element)

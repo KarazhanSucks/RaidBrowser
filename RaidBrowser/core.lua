@@ -113,6 +113,29 @@ local raid_list = {
 	-- Be careful about changing the order of the raids below
 
 	{
+		name = 't7dr25',
+		instance_name = 'T7 Dragon Run',
+		size = 25,
+		patterns = {
+			'eoe' .. wtext .. 'os' .. wtext .. '25',
+			'25m' .. wtext .. 'eoe' .. wtext .. 'os',
+			't7' .. csep .. 'dragons?' .. csep .. '25',
+			't7' .. csep .. 'dr' .. csep .. '25',
+		}
+	},
+
+	{
+		name = 't7dr10',
+		instance_name = 'T7 Dragon Run',
+		size = 10,
+		patterns = {
+			'eoe' .. wtext .. 'os',
+			't7' .. csep .. 'dragons?',
+			't7' .. csep .. 'dr',
+		}
+	},
+
+	{
 		name = 't7wt25',
 		instance_name = 'T7 World Tour',
 		size = 25,
@@ -1149,8 +1172,8 @@ function RaidBrowser.lex_and_extract(message, debug)
 	end
 
 -- If there are multiple distinct raids, then it is most likely a recruitment message.
-	-- EXCEPTION: Allow it if we successfully matched a unified World Tour template entry
-	if num_unique_raids > 1 and not raid_info.name:find('t7wt') then 
+	-- EXCEPTION: Allow it if we successfully matched a unified World Tour or Dragon Run template
+	if num_unique_raids > 1 and not (raid_info.name:find('t7wt') or raid_info.name:find('t7dr')) then 
 		if debug then
 			RaidBrowser:Print("found multiple raids, could be recruiting...");
 		end
@@ -1209,6 +1232,7 @@ end
 
 function RaidBrowser.get_short_raid_name(raid_name)
 	if raid_name:find('t7wt') then return 't7wt' end
+	if raid_name:find('t7dr') then return 't7dr' end
 	return string.gsub(raid_name, '[1|2][0|5](%w*)', '');
 end
 

@@ -166,7 +166,7 @@ local function assign_lfr_button(button, host_name, lfm_info, index)
 	-- Raid name
 	button.class:SetText(button.raid_info.name);
 
-	-- Handle Lock checking for composite world tour profiles vs normal instances
+	-- Handle Lock checking for composite profiles vs normal instances
 	if button.raid_info.name:find('t7wt') then
 		local size = button.raid_info.size
 		local naxx_info = { instance_name = "Naxxramas", size = size }
@@ -181,6 +181,19 @@ local function assign_lfr_button(button, host_name, lfm_info, index)
 		button.raid_reset_time = math.max(naxx_reset or 0, eoe_reset or 0, os_reset or 0)
 
 		button.naxx_locked = naxx_locked
+		button.eoe_locked = eoe_locked
+		button.os_locked = os_locked
+	elseif button.raid_info.name:find('t7dr') then
+		local size = button.raid_info.size
+		local eoe_info = { instance_name = "The Eye of Eternity", size = size }
+		local os_info = { instance_name = "The Obsidian Sanctum", size = size }
+
+		local eoe_locked, eoe_reset = RaidBrowser.stats.raid_lock_info(eoe_info)
+		local os_locked, os_reset = RaidBrowser.stats.raid_lock_info(os_info)
+
+		button.raid_locked = eoe_locked or os_locked
+		button.raid_reset_time = math.max(eoe_reset or 0, os_reset or 0)
+
 		button.eoe_locked = eoe_locked
 		button.os_locked = os_locked
 	else
@@ -241,6 +254,13 @@ local function assign_lfr_button(button, host_name, lfm_info, index)
 			if lfr_button.raid_info.name:find('t7wt') then
 				GameTooltip:AddLine('\n|cffffd100World Tour Lock Status:|r')
 				GameTooltip:AddLine('Naxxramas: ' .. (lfr_button.naxx_locked and '|cffff0000Saved|r' or '|cff00ffffAvailable|r'))
+				GameTooltip:AddLine('Eye of Eternity: ' .. (lfr_button.eoe_locked and '|cffff0000Saved|r' or '|cff00ffffAvailable|r'))
+				GameTooltip:AddLine('Obsidian Sanctum: ' .. (lfr_button.os_locked and '|cffff0000Saved|r' or '|cff00ffffAvailable|r'))
+				if lfr_button.raid_locked then
+					GameTooltip:AddLine('Max CD remaining: ' .. format_seconds(lfr_button.raid_reset_time));
+				end
+			elseif lfr_button.raid_info.name:find('t7dr') then
+				GameTooltip:AddLine('\n|cffffd100Dragon Run Lock Status:|r')
 				GameTooltip:AddLine('Eye of Eternity: ' .. (lfr_button.eoe_locked and '|cffff0000Saved|r' or '|cff00ffffAvailable|r'))
 				GameTooltip:AddLine('Obsidian Sanctum: ' .. (lfr_button.os_locked and '|cffff0000Saved|r' or '|cff00ffffAvailable|r'))
 				if lfr_button.raid_locked then

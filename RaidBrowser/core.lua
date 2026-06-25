@@ -111,6 +111,33 @@ local raid_list = {
 	-- Note: The order of each raid is deliberate.
 	-- Heroic raids are checked first, since NM raids will have the default 'icc10' pattern.
 	-- Be careful about changing the order of the raids below
+
+	{
+		name = 't7wt25',
+		instance_name = 'T7 World Tour',
+		size = 25,
+		patterns = {
+			't7' .. csep .. 'world' .. csep .. 'tour' .. csep .. '25',
+			't7' .. csep .. 'wt' .. csep .. '25',
+			-- Pattern matching strings that contain multiple T7 tags in a 25-man context
+			'naxx' .. wtext .. 'eoe' .. wtext .. 'os' .. wtext .. '25',
+			'25m' .. wtext .. 'naxx' .. wtext .. 'eoe' .. wtext .. 'os',
+		}
+	},
+
+	{
+		name = 't7wt10',
+		instance_name = 'T7 World Tour',
+		size = 10,
+		patterns = {
+			't7' .. csep .. 'world' .. csep .. 'tour' .. csep .. '10',
+			't7' .. csep .. 'wt' .. csep .. '10',
+			't7' .. csep .. 'world' .. csep .. 'tour',
+			't7' .. csep .. 'wt',
+			'naxx' .. wtext .. 'eoe' .. wtext .. 'os',
+		}
+	},
+
 	{
 		name = 'icc25rep',
 		instance_name = 'Icecrown Citadel',
@@ -1121,10 +1148,11 @@ function RaidBrowser.lex_and_extract(message, debug)
 		return 
 	end
 
-	-- If there are multiple distinct raids, then it is most likely a recruitment message.
-	if num_unique_raids > 1 then 
+-- If there are multiple distinct raids, then it is most likely a recruitment message.
+	-- EXCEPTION: Allow it if we successfully matched a unified World Tour template entry
+	if num_unique_raids > 1 and not raid_info.name:find('t7wt') then 
 		if debug then
-			RaidBrowser:Print("found mulitple raids, could be recruiting...");
+			RaidBrowser:Print("found multiple raids, could be recruiting...");
 		end
 		return 
 	end
@@ -1180,6 +1208,7 @@ function RaidBrowser.raid_info(message, debug)
 end
 
 function RaidBrowser.get_short_raid_name(raid_name)
+	if raid_name:find('t7wt') then return 't7wt' end
 	return string.gsub(raid_name, '[1|2][0|5](%w*)', '');
 end
 

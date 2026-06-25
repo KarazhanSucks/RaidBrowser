@@ -1512,6 +1512,13 @@ local test_cases = {
 		roles = { 'dps', 'tank', 'healer' },
 		gs = ' ',
 	},
+	{
+		message = 'LFM 25M Naxx- EOE - OS2D (Thursday 6:30pm PST) Need 2 Heals & Ranged DPS (MS>OS, No HR) signup in discord > https://discord.gg/rbdPUVd7Np',
+		should_fail = false,
+		raid = 't7wt25',
+		roles = { 'dps', 'healer' },
+		gs = ' ',
+	},
 }
 
 local function array_contains(t, element)

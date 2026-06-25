@@ -166,7 +166,27 @@ local function assign_lfr_button(button, host_name, lfm_info, index)
 	-- Raid name
 	button.class:SetText(button.raid_info.name);
 
-	button.raid_locked, button.raid_reset_time = RaidBrowser.stats.raid_lock_info(button.raid_info);
+	-- Handle Lock checking for composite world tour profiles vs normal instances
+	if button.raid_info.name:find('t7wt') then
+		local size = button.raid_info.size
+		local naxx_info = { instance_name = "Naxxramas", size = size }
+		local eoe_info = { instance_name = "The Eye of Eternity", size = size }
+		local os_info = { instance_name = "The Obsidian Sanctum", size = size }
+
+		local naxx_locked, naxx_reset = RaidBrowser.stats.raid_lock_info(naxx_info)
+		local eoe_locked, eoe_reset = RaidBrowser.stats.raid_lock_info(eoe_info)
+		local os_locked, os_reset = RaidBrowser.stats.raid_lock_info(os_info)
+
+		button.raid_locked = naxx_locked or eoe_locked or os_locked
+		button.raid_reset_time = math.max(naxx_reset or 0, eoe_reset or 0, os_reset or 0)
+
+		button.naxx_locked = naxx_locked
+		button.eoe_locked = eoe_locked
+		button.os_locked = os_locked
+	else
+		button.raid_locked, button.raid_reset_time = RaidBrowser.stats.raid_lock_info(button.raid_info);
+	end
+
 	button.type = "party";
 
 	button.partyIcon:Show();
@@ -207,7 +227,7 @@ local function assign_lfr_button(button, host_name, lfm_info, index)
 	button.damageIcon:SetTexture("Interface\\LFGFrame\\LFGRole");
 	button.partyIcon:SetTexture("Interface\\LFGFrame\\LFGRole");
 
-button:SetScript("OnDoubleClick", on_join)
+	button:SetScript("OnDoubleClick", on_join)
 
 	button:SetScript('OnEnter', 
 		function(lfr_button) 
@@ -218,11 +238,21 @@ button:SetScript("OnDoubleClick", on_join)
 			GameTooltip:AddLine(lfr_button.lfm_info.message, 1, 1, 1, true);
 			GameTooltip:AddLine(last_sent);
 
-			if lfr_button.raid_locked then
-				GameTooltip:AddLine('\nYou are |cffff0000saved|cffffd100 for ' .. lfr_button.raid_info.name);
-				GameTooltip:AddLine('Lockout expires in ' .. format_seconds(lfr_button.raid_reset_time));
+			if lfr_button.raid_info.name:find('t7wt') then
+				GameTooltip:AddLine('\n|cffffd100World Tour Lock Status:|r')
+				GameTooltip:AddLine('Naxxramas: ' .. (lfr_button.naxx_locked and '|cffff0000Saved|r' or '|cff00ffffAvailable|r'))
+				GameTooltip:AddLine('Eye of Eternity: ' .. (lfr_button.eoe_locked and '|cffff0000Saved|r' or '|cff00ffffAvailable|r'))
+				GameTooltip:AddLine('Obsidian Sanctum: ' .. (lfr_button.os_locked and '|cffff0000Saved|r' or '|cff00ffffAvailable|r'))
+				if lfr_button.raid_locked then
+					GameTooltip:AddLine('Max CD remaining: ' .. format_seconds(lfr_button.raid_reset_time));
+				end
 			else
-				GameTooltip:AddLine('\nYou are |cff00ffffnot saved|cffffd100 for ' .. lfr_button.raid_info.name);
+				if lfr_button.raid_locked then
+					GameTooltip:AddLine('\nYou are |cffff0000saved|cffffd100 for ' .. lfr_button.raid_info.name);
+					GameTooltip:AddLine('Lockout expires in ' .. format_seconds(lfr_button.raid_reset_time));
+				else
+					GameTooltip:AddLine('\nYou are |cff00ffffnot saved|cffffd100 for ' .. lfr_button.raid_info.name);
+				end
 			end
 
 			GameTooltip:Show();

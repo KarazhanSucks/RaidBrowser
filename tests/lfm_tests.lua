@@ -1547,6 +1547,27 @@ local test_cases = {
 		roles = {},
 		gs = ' ',
 	},
+	{
+		message = 'LF hpal ULD25 all HM semi guild run',
+		should_fail = false,
+		raid = 'ulduar25',
+		roles = { 'healer' },
+		gs = ' ',
+	},
+	{
+		message = 'LF hpal ULD25 all HM semi guild run',
+		should_fail = false,
+		raid = 'ulduar25',
+		roles = { 'healer' },
+		gs = ' ',
+	},
+	{
+		message = 'LFM ULD25 all HM - semiguild run 4750gs+',
+		should_fail = false,
+		raid = 'ulduar25',
+		roles = { 'dps', 'healer', 'tank' },
+		gs = '4.8',
+	},
 }
 
 local function array_contains(t, element)

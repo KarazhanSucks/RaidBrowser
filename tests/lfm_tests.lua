@@ -1540,8 +1540,14 @@ local test_cases = {
 		roles = { 'dps', 'healer', 'tank' },
 		gs = ' ',
 	},
+	{
+		message = 'Newly formed International guild Blackwing - LF active 5.8 min experienced people for our core ,need all roles and non toxic players for chill enviroment ,discord required for raids,we planing on using DKP when we get more members,RT 17:30 ST',
+		should_fail = true,
+		raid = 'guild_message',
+		roles = {},
+		gs = ' ',
+	},
 }
-
 
 local function array_contains(t, element)
 	for _, k in ipairs(t) do

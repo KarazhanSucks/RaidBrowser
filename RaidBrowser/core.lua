@@ -844,15 +844,22 @@ local guild_recruitment_patterns = {
 	'we' .. csep .. 'raid',
 	'we' .. csep .. 'are' .. csep .. 'raidi?n?g?',
 	'[<({-][%a%s]+[-})>]' .. csep .. 'is' .. csep .. 'a?', -- (<GuildName> is a) pve guild looking for
+	
+	-- NEW: Catch unbracketed free-form layouts like "guild ... - LF" or "guild looking for"
+	'guild' .. wtext .. 'lf',
+	'guild' .. wtext .. 'looking' .. csep .. 'for',
+	'guild' .. wtext .. 'for' .. csep .. 'our' .. csep .. 'core',
+	'newly' .. csep .. 'formed' .. csep .. 'international' .. csep .. 'guild',
+	
 	'is' .. csep .. '[%a%s]*playe?rs?',
-	'[0-9][0-9][pa]m' .. csep .. 'st', -- we raid (12pm set)
+	'---' .. csep .. '[0-9][0-9][pa]m' .. csep .. 'st', -- we raid (12pm set)
 	'autorecruit',
 	'raid' .. csep .. 'time',
 	'active' .. csep .. 'raiders?',
 	'is' .. csep .. 'a' .. csep .. '[%a]*' .. csep .. '[pvep][pvep][pvep]' .. csep .. 'guild',
 	'lf' .. sep .. 'members',
 	'new' .. sep .. 'members',
-	'Apply' .. sep .. 'here',
+	'apply' .. sep .. 'here',
 };
 
 local trade_message_patterns = {

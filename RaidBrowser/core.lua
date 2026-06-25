@@ -1163,10 +1163,14 @@ function RaidBrowser.lex_and_extract(message, debug)
 	message = message:lower();
 	message = remove_http_links(message);
 
-	-- Clean out negative phrases so they don't corrupt the syntax engine
+-- Clean out negative phrases so they don't corrupt the syntax engine
 	message = string.gsub(message, "nothing%s+reserved", "")
 	message = string.gsub(message, "nothing%s+res%a*", "")
 	message = string.gsub(message, "no%s+hr", "")
+	
+	-- FIX: Clean out loot specs so they aren't misidentified as 'os' (Obsidian Sanctum)
+	message = string.gsub(message, "[sm]s/os", "")
+	message = string.gsub(message, "ms%s+or%s+os", "")
 
 	-- Stop if it's a guild recruit/wts message
 	if is_guild_recruitment(message) or is_trade_message(message) then

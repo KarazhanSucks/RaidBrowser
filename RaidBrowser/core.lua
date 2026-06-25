@@ -113,29 +113,6 @@ local raid_list = {
 	-- Be careful about changing the order of the raids below
 
 	{
-		name = 't7dr25',
-		instance_name = 'T7 Dragon Run',
-		size = 25,
-		patterns = {
-			'eoe' .. wtext .. 'os' .. wtext .. '25',
-			'25m' .. wtext .. 'eoe' .. wtext .. 'os',
-			't7' .. csep .. 'dragons?' .. csep .. '25',
-			't7' .. csep .. 'dr' .. csep .. '25',
-		}
-	},
-
-	{
-		name = 't7dr10',
-		instance_name = 'T7 Dragon Run',
-		size = 10,
-		patterns = {
-			'eoe' .. wtext .. 'os',
-			't7' .. csep .. 'dragons?',
-			't7' .. csep .. 'dr',
-		}
-	},
-
-	{
 		name = 't7wt25',
 		instance_name = 'T7 World Tour',
 		size = 25,
@@ -158,6 +135,30 @@ local raid_list = {
 			't7' .. csep .. 'world' .. csep .. 'tour',
 			't7' .. csep .. 'wt',
 			'naxx' .. wtext .. 'eoe' .. wtext .. 'os',
+		}
+	},
+
+
+	{
+		name = 't7dr25',
+		instance_name = 'T7 Dragon Run',
+		size = 25,
+		patterns = {
+			'eoe' .. wtext .. 'os' .. wtext .. '25',
+			'25m' .. wtext .. 'eoe' .. wtext .. 'os',
+			't7' .. csep .. 'dragons?' .. csep .. '25',
+			't7' .. csep .. 'dr' .. csep .. '25',
+		}
+	},
+
+	{
+		name = 't7dr10',
+		instance_name = 'T7 Dragon Run',
+		size = 10,
+		patterns = {
+			'eoe' .. wtext .. 'os',
+			't7' .. csep .. 'dragons?',
+			't7' .. csep .. 'dr',
 		}
 	},
 

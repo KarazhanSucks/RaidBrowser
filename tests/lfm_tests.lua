@@ -1533,10 +1533,16 @@ local test_cases = {
 		roles = { 'dps' },
 		gs = '3.6',
 	},
+	{
+		message = 'LFM OS 10 2D ! nothing reserved ! LF 1 tank + 1 heal + 1 RDPS ! ',
+		should_fail = false,
+		raid = 'os10',
+		roles = { 'dps', 'healer', 'tank' },
+		gs = ' ',
+	},
 }
 
 
- 
 local function array_contains(t, element)
 	for _, k in ipairs(t) do
 		if k == element then

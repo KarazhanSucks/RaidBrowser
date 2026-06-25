@@ -66,8 +66,9 @@ local raid_patterns_template = {
 	},
 
 	simple = {
-		'<raid>' .. csep .. '<size>' .. csep .. 'm[an][an]' .. csep .. 'f?u?l?l?',
-		'<raid>' .. csep .. '<size>' .. csep .. 'f?u?l?l?',
+		'<raid>' .. csep .. '<size>' .. csep .. '[0-3]?[ddDd]?' .. csep .. 'm[an][an]' .. csep .. 'f?u?l?l?',
+		'<raid>' .. csep .. '<size>' .. csep .. '[0-3]?[ddDd]?' .. csep .. 'f?u?l?l?',
+		'<raid>' .. csep .. '<size>' .. csep .. '[0-3][ddDd]', -- Consumes "os 10 2d" completely!
 		'^<size>' .. csep .. 'm?a?n?' .. csep .. 'f?u?l?l?' .. csep .. '<raid>' .. sep,
 		sep .. '<size>' .. csep .. 'm?a?n?' .. csep .. '<raid>' .. sep,
 	},
@@ -1154,6 +1155,11 @@ function RaidBrowser.lex_and_extract(message, debug)
 	if not message then return end
 	message = message:lower();
 	message = remove_http_links(message);
+
+	-- Clean out negative phrases so they don't corrupt the syntax engine
+	message = string.gsub(message, "nothing%s+reserved", "")
+	message = string.gsub(message, "nothing%s+res%a*", "")
+	message = string.gsub(message, "no%s+hr", "")
 
 	-- Stop if it's a guild recruit/wts message
 	if is_guild_recruitment(message) or is_trade_message(message) then

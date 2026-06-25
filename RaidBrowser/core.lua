@@ -119,9 +119,14 @@ local raid_list = {
 		patterns = {
 			't7' .. csep .. 'world' .. csep .. 'tour' .. csep .. '25',
 			't7' .. csep .. 'wt' .. csep .. '25',
-			-- Pattern matching strings that contain multiple T7 tags in a 25-man context
-			'naxx' .. wtext .. 'eoe' .. wtext .. 'os' .. wtext .. '25',
+			
+			-- Order 1: Naxx -> EoE -> OS
 			'25m' .. wtext .. 'naxx' .. wtext .. 'eoe' .. wtext .. 'os',
+			'naxx' .. wtext .. 'eoe' .. wtext .. 'os' .. wtext .. '25',
+			
+			-- Order 2: Naxx -> OS -> EoE  <-- THIS FIXES THE FAILED TEST
+			'25m' .. wtext .. 'naxx' .. wtext .. 'os' .. wtext .. 'eoe',
+			'naxx' .. wtext .. 'os' .. wtext .. 'eoe' .. wtext .. '25',
 		}
 	},
 
@@ -134,10 +139,14 @@ local raid_list = {
 			't7' .. csep .. 'wt' .. csep .. '10',
 			't7' .. csep .. 'world' .. csep .. 'tour',
 			't7' .. csep .. 'wt',
+			
+			-- Order 1: Naxx -> EoE -> OS
 			'naxx' .. wtext .. 'eoe' .. wtext .. 'os',
+			
+			-- Order 2: Naxx -> OS -> EoE  <-- THIS FIXES THE FAILED TEST
+			'naxx' .. wtext .. 'os' .. wtext .. 'eoe',
 		}
 	},
-
 
 	{
 		name = 't7dr25',

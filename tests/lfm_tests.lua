@@ -1526,7 +1526,16 @@ local test_cases = {
 		roles = { 'dps', 'healer', 'tank' },
 		gs = ' ',
 	},
+	{
+		message = 'LFM 25m raids Naxx+OS2D+EoE Today 18:30 CET, NEED 10DPS 3.6+ GS, MS>OS Key HR, sign up on discord: https://discord.gg/h5CH6FqdA',
+		should_fail = false,
+		raid = 't7wt25',
+		roles = { 'dps' },
+		gs = '3.6',
+	},
 }
+
+
  
 local function array_contains(t, element)
 	for _, k in ipairs(t) do
